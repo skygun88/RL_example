@@ -4,6 +4,7 @@ from matplotlib import pyplot as plt
 from model import *
 from agent import CartPoleAgent
 
+''' Path MACROS '''
 CURRENT_PATH = os.path.dirname(os.path.realpath(__file__))
 WEIGHT_PATH = CURRENT_PATH+'/weight/'
 RESULT_PATH = CURRENT_PATH+'/result/'
@@ -20,6 +21,7 @@ def train(env, n_state, n_action, verbose=True, max_iteration=500):
 
     scores = []
     losses = []
+    ''' Training loop '''
     for i in range(max_iteration):
         state = env.reset()
         score, loss, t = 0, 0, 0
@@ -54,7 +56,6 @@ def train(env, n_state, n_action, verbose=True, max_iteration=500):
         if i % 50 == 0 and i > 0:
             agent.save_model(WEIGHT_PATH)
             draw_plot(scores, losses)
-
     env.close()
 
     ''' Save well trained model & Draw the result score & loss plot '''
