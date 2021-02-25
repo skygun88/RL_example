@@ -59,6 +59,7 @@ def collect_memroy(env, agent, m_size=1000, verbose=True):
 def train(env, n_state, n_action, verbose=True, max_iteration=100, max_memory=5000, memory_size=1000, batch_size=50):
     state = env.reset()
     agent: CartPoleAgent = CartPoleAgent(n_state, n_action)
+    print(state)
 
     ''' Replay memory '''
     replay_memory = []
@@ -112,7 +113,7 @@ if __name__ == '__main__':
             n_action=n_action, 
             verbose=False, 
             max_iteration=500, 
-            max_memory=3000, 
+            max_memory=2500, 
             memory_size=1000, 
             batch_size=50
     )

@@ -43,30 +43,6 @@ class CartPoleAgent:
         self.actor.eval()
         self.critic.eval()
 
-    def train_model(self, state, action, reward, next_state, done):
-        self.actor_optimizer.zero_grad(), self.critic_optimizer.zero_grad()
-        self.actor.train(), self.critic.train()
-        policy, value, next_value = self.actor(state), self.critic(state), self.critic(next_state)
-
-        target = reward + (1 - done) * self.discount_factor * next_value
-        
-        one_hot_action = torch.zeros(self.n_action)
-        one_hot_action[action] = policy[0][action]
-        action_prob = one_hot_action.reshape(2)
-        action_prob = torch.sum(action_prob)
-        advantage = (target - value.item()).detach().reshape(1)
-        # print(f'advantage: {advantage}, {advantage.shape}, {advantage.dtype}')
-
-        actor_loss = -(torch.log(action_prob + 1e-5)*advantage)
-        critic_loss = 0.5 * torch.square(target.detach() - value[0])
-        loss = 0.2 * actor_loss + critic_loss
-        loss.backward()
-        #print(f'loss: {loss.item()}')
-
-        self.actor_optimizer.step()
-        self.critic_optimizer.step()
-        return loss.item()
-
     def train_model_from_memory(self, memory, batch_size):
         self.actor.train(), self.critic.train()
         n_batch = math.ceil(len(memory)/batch_size)
